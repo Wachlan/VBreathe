@@ -9,6 +9,7 @@
 from __future__ import division, with_statement, print_function
 import sys
 from crc import CrcCalculator, Configuration
+import csv
 from aardvark_py import *
 
 
@@ -130,8 +131,19 @@ while 1:
     checkCRC(MSB, LSB, Expected_CRC)
 
     DP = MSB*256 + LSB
-    DP = DP*SCALING_PRESSURE_FACTOR
+    #DP = DP*SCALING_PRESSURE_FACTOR
     print ("Differential Pressure: %.1f" %DP)
+
+    data = [DP]
+
+    # Write data to csv file
+    # open the file in the write mode
+    with open('Data.csv', 'a+', encoding = 'UTF8', newline ='') as write_obj:
+        # create the csv writer
+        writer = csv.writer(write_obj)
+
+        # write a row to the csv file
+        writer.writerow(data)
 
     sys.stdout.write("\n")
 
@@ -139,8 +151,6 @@ f.close()
 
 # Close the device
 aa_close(handle)
-
-
 
 
 
